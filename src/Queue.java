@@ -1,4 +1,4 @@
-public class Stack {
+public class Queue {
     private class Node {
         private int value;
         private Node next;
@@ -33,23 +33,18 @@ public class Stack {
         }
 
     }
-
     private Node head;
 
     public boolean isEmpty() {
-        return  (head.getNext() == null ? true : false);
+        return (head.getNext() == null ? true : false);
     }
 
-    public void Push(int x) {
+    public void push(int x) {
         Node N = new Node(x);
         if (!isEmpty()) {
-            Node temp = head;
-            while (temp.getNext() != null) {
-                temp.setNext(temp.getNext());
-            }
+            Node temp = getLast();
             temp.setNext(N);
             N.setPrevious(temp);
-
         } else {
             head = N;
         }
@@ -59,23 +54,24 @@ public class Stack {
         Node temp;
         if (!isEmpty()) {
             temp = head;
-            while (temp.getNext() != null) {
-                temp.setNext(temp.getNext());
-            }
-            temp.getPrevious().setNext(null);
-            temp.setPrevious(null);
-        } else  {
+            head = temp.getNext();
+            head.setPrevious(null);
+            temp.setNext(null);
+        } else {
             temp = null;
         }
         return temp;
     }
 
     public Node peekFirst() {
-        Node temp = head;
-        while (temp.getNext() != null) {
-            temp.setNext(temp.getNext());
-        }
-        return temp;
-    }
+        return head;
+    };
 
+    private Node getLast() {
+        Node N = head;
+        while (N.getNext() != null) {
+            N.setNext(N.getNext());
+        }
+        return N;
+    }
 }
