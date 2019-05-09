@@ -1,3 +1,6 @@
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+
+import java.awt.*;
 import java.util.Scanner;
 
 public class CrazyStation {
@@ -24,38 +27,71 @@ public class CrazyStation {
                 canConfig = CheckConfiguration(trainA,trainB,attempt,station);
             } catch (Exception e) {
                 if (e != null) {
-                    System.out.println("Dude... you caught a big exception: " +e.getMessage());
+                    System.out.println("Dude... you caught a big exception: " +e);
+                    canConfig = false;
                 }
             }
             if (canConfig) {
                //success case
+                System.out.println("Smooth move - the reconfiguration was successful");
+
             } else {
                 //fail case
+                System.out.println("Bozo! you can\'t do that! Reconfiguration is impossible");
             }
-        }
 
+            System.out.print("original (trainA) :");
+            trainA.display();
+            System.out.print("target (trainB)   :");
+            trainB.display();
+            System.out.print("actual            :");
+            attempt.display();
+            System.out.println();
+
+            trainA  = new Queue();
+            trainB  = new Queue();
+            attempt = new Queue();
+            station = new Stack();
+
+            option = Menu(input);
+        }
+        System.out.println("ByeBye");
     }
 
     public static boolean CheckConfiguration(Queue a, Queue b, Queue attempt, Stack s) {
+        boolean noMatch = false;
         Node tempB = b.peekFirst();      //first value to put into the B queue
-            Node tempA = a.peekFirst();
-            while (tempA != null) {
-                if (tempA.getValue() == tempB.getValue()) {
-                    s.Push(tempA.getValue());
-                    attempt.push(s.pop().getValue());
-                    tempB = tempB.getNext();
-                } else if (s.peekFirst().getValue() == tempB.getValue()) {
-                    attempt.push(s.pop().getValue());
-                    tempB = tempB.getNext();
-                } else {
-                    s.Push(tempA.getValue());
-                }
+        Node tempA = a.peekFirst();
+        while (tempA != null) {
+            if (tempA.getValue() == tempB.getValue()) {
+                attempt.push(tempA.getValue());
+                tempB = tempB.getNext();
                 tempA = tempA.getNext();
-                if (tempB == null) {
-                    break;
+            } else {
+                if (!s.isEmpty()) {
+                    if (s.peekFirst().getValue() == tempB.getValue()) {
+                        attempt.push(s.pop().getValue());
+                        tempB = tempB.getNext();
+                    }else {
+                        s.push(tempA.getValue());
+                        tempA = tempA.getNext();
+                    }
+                } else {
+                    s.push(tempA.getValue());
+                    tempA = tempA.getNext();
                 }
             }
-            return b.compareTo(attempt);
+
+        }
+        if (!s.isEmpty()) {
+            while (s.peekFirst().getValue() == tempB.getValue()) {
+                attempt.push(s.pop().getValue());
+                tempB = tempB.getNext();
+            }
+        }
+
+        attempt.display();
+        return b.compareTo(attempt);
     }
 
     public static int Menu(Scanner input) {

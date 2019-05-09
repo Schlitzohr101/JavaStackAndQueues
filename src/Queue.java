@@ -54,4 +54,15 @@ public class Queue {
         }
         return compares;
     }
+
+    public void display() {
+        Node temp = head;
+        System.out.printf("%d",temp.getValue());
+        temp = temp.getNext();
+        while (temp != null) {
+            System.out.printf("-%d",temp.getValue());
+            temp = temp.getNext();
+        }
+        System.out.println();
+    }
 }

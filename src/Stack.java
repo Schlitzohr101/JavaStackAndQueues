@@ -5,12 +5,12 @@ public class Stack {
         return  (head == null);
     }
 
-    public void Push(int x) {
+    public void push(int x) {
         Node N = new Node(x);
         if (!isEmpty()) {
             Node temp = head;
             while (temp.getNext() != null) {
-                temp.setNext(temp.getNext());
+                temp = temp.getNext();
             }
             temp.setNext(N);
             N.setPrevious(temp);
@@ -25,9 +25,13 @@ public class Stack {
         if (!isEmpty()) {
             temp = head;
             while (temp.getNext() != null) {
-                temp.setNext(temp.getNext());
+                temp = temp.getNext();
             }
-            temp.getPrevious().setNext(null);
+            if (temp == head) {
+                head = null;
+            } else {
+                temp.getPrevious().setNext(null);
+            }
             temp.setPrevious(null);
         } else  {
             temp = null;
@@ -37,8 +41,10 @@ public class Stack {
 
     public Node peekFirst() {
         Node temp = head;
-        while (temp.getNext() != null) {
-            temp = temp.getNext();
+        if (!isEmpty()) {
+            while (temp.getNext() != null) {
+                temp = temp.getNext();
+            }
         }
         return temp;
     }
