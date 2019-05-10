@@ -83,14 +83,11 @@ public class CrazyStation {
             }
 
         }
-        if (!s.isEmpty()) {
-            while (s.peekFirst().getValue() == tempB.getValue()) {
-                attempt.push(s.pop().getValue());
-                tempB = tempB.getNext();
-            }
+        while (!s.isEmpty()) {
+            attempt.push(s.pop().getValue());
+            tempB = tempB.getNext();
         }
 
-        attempt.display();
         return b.compareTo(attempt);
     }
 
