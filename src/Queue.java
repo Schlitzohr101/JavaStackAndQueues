@@ -1,42 +1,8 @@
 public class Queue {
-    private class Node {
-        private int value;
-        private Node next;
-        private Node previous;
-
-        public Node(int x) {
-            value = x;
-        }
-
-        public void setNext(Node next) {
-            this.next = next;
-        }
-
-        public void setPrevious(Node previous) {
-            this.previous = previous;
-        }
-
-        public void setValue(int value) {
-            this.value = value;
-        }
-
-        public Node getNext() {
-            return next;
-        }
-
-        public Node getPrevious() {
-            return previous;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-    }
     private Node head;
 
     public boolean isEmpty() {
-        return (head.getNext() == null ? true : false);
+        return (head == null);
     }
 
     public void push(int x) {
@@ -70,8 +36,33 @@ public class Queue {
     private Node getLast() {
         Node N = head;
         while (N.getNext() != null) {
-            N.setNext(N.getNext());
+            N = N.getNext();
         }
         return N;
+    }
+
+    public boolean compareTo(Queue c) {
+        boolean compares = true;
+        Node tempA = head;
+        Node tempC = c.peekFirst();
+        while (tempA != null && tempC != null) {
+            if (tempA.getValue() != tempC.getValue()) {
+                compares = false;
+            }
+            tempA = tempA.getNext();
+            tempC = tempC.getNext();
+        }
+        return compares;
+    }
+
+    public void display() {
+        Node temp = head;
+        System.out.printf("%d",temp.getValue());
+        temp = temp.getNext();
+        while (temp != null) {
+            System.out.printf("-%d",temp.getValue());
+            temp = temp.getNext();
+        }
+        System.out.println();
     }
 }
